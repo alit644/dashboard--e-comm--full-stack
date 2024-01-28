@@ -10,6 +10,13 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState("");
 
+    // paginations
+    const [page, setPage] = useState(1);
+    const [limit, setLimit] = useState(5);
+    const [lodaing, setLodaing] = useState(false);
+    const [total, settotal] = useState(0);
+  
+
   const header = [
     {
       key: "name",
@@ -28,11 +35,14 @@ const Users = () => {
   // get all users
   useEffect(() => {
     try {
-      Axios.get(`/${USERS}`).then((data) => setUsers(data.data));
+      setLodaing(true)
+      Axios.get(`/${USERS}?limit=${limit}&page=${page}`).then((data) => {setUsers(data.data.data)
+        settotal(data.data.total)
+      }).finally(() => setLodaing(false))
     } catch (error) {
       console.log(error);
-    }
-  }, []);
+    } 
+  }, [limit,page]);
 
   // get currentUser now
   useEffect(() => {
@@ -85,6 +95,13 @@ const Users = () => {
           data={users}
           delete={handelDelete}
           currentUser={currentUser}
+          limit={limit}
+          page={page}
+          setPage={setPage}
+          setLimit={setLimit}
+          lodaing={lodaing}
+          total={total}
+
         />
       </Box>
     </Box>

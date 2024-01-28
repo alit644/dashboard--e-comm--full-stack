@@ -1,0 +1,45 @@
+.custom-pagintaion {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  list-style: none;
+  margin: 40px 0;
+}
+.pagintaion-tag {
+  width: 30px;
+  height: 30px;
+  margin: 0 4px;
+  display: inline-block;
+  text-align: center;
+  line-height: 30px;
+  background-color: #e7e6eb;
+  font-size: 13px;
+  color:#886ab5;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: 0.3s;
+}
+.pagintaion-tag:hover{
+  background-color: #886ab5;
+  color:#ffffff;
+
+}
+.pagintaion-tag-active{
+  background-color: #886ab5;
+  color:#ffffff;
+}
+.prev , .next{
+  background-color: #E7E1F0;
+  color: #886ab5;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  text-align: center;
+}
+.disabled{
+  background-color: #ECECEC;
+  color: #949393;
+  cursor: not-allowed;
+}
+

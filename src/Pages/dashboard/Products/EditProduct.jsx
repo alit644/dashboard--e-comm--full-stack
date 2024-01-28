@@ -53,7 +53,7 @@ const EditProduct = () => {
   //! 2 => get all Categories
   useEffect(() => {
     try {
-      Axios.get(`/${CAT}`).then((data) => setCategories(data.data));
+      Axios.get(`/${CAT}`).then((data) => setCategories(data.data.data));
     } catch (error) {
       console.log(error);
     }

@@ -2,12 +2,19 @@ import { Button, Box, Stack, Typography } from "@mui/material";
 import Tablee from "../../../Components/dashboard/Tablee";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { PRO,  pro } from "../../../Api/Api";
+import { PRO, pro } from "../../../Api/Api";
 import { Axios } from "../../../Api/axios";
 
 const Products = () => {
   // state
   const [products, setProducts] = useState([]);
+
+  // paginations
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(5);
+
+  const [lodaing, setLodaing] = useState(false);
+  const [total, settotal] = useState(0);
 
   const header = [
     {
@@ -32,14 +39,19 @@ const Products = () => {
     },
   ];
 
-  // get all Categories
+  // get all products
   useEffect(() => {
     try {
-      Axios.get(`/${PRO}`).then((data) => setProducts(data.data));
+      setLodaing(true);
+
+      Axios.get(`/${PRO}?limit=${limit}&page=${page}`).then((data) => {
+        setProducts(data.data.data);
+        settotal(data.data.total);
+      }).finally(() => setLodaing(false))
     } catch (error) {
       console.log(error);
-    }
-  }, []);
+    } 
+  }, [limit, page]);
 
   const nav = useNavigate();
 
@@ -78,7 +90,17 @@ const Products = () => {
       </Stack>
 
       <Box>
-        <Tablee header={header} data={products} delete={handelDelete} />
+        <Tablee
+          header={header}
+          data={products}
+          delete={handelDelete}
+          limit={limit}
+          page={page}
+          setPage={setPage}
+          setLimit={setLimit}
+          lodaing={lodaing}
+          total={total}
+        />
       </Box>
     </Box>
   );

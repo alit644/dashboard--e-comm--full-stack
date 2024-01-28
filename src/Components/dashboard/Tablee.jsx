@@ -8,7 +8,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { DeleteForeverOutlined, EditOutlined } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import { CircularProgress, Stack } from "@mui/material";
+import { CircularProgress, FormControl, InputLabel, MenuItem, Select, Stack } from "@mui/material";
+import PaginatedItems from "../paginate/Paginate";
 
 export default function Tablee(props) {
   const currentUser = props.currentUser || { name: "" };
@@ -21,13 +22,15 @@ export default function Tablee(props) {
     );
   });
 
+
+
   // eslint-disable-next-line react/prop-types
   const dataShow = props.data.map((item, i) => (
     <TableRow
       key={i}
       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
     >
-      <TableCell>{i + 1}</TableCell>
+      <TableCell>{item.id}</TableCell>
       {props.header.map((item2, index) => {
         return (
           <TableCell key={index} align="center" component="th" scope="row">
@@ -81,30 +84,58 @@ export default function Tablee(props) {
   ));
 
   return (
-    <TableContainer sx={{ mt: 4 }} component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow sx={{ bgcolor: "#8582b16c" }}>
-            <TableCell align="left">Id</TableCell>
-            {headerShow}
-            <TableCell align="right">Action</TableCell>
-          </TableRow>
-        </TableHead>
+    <>
+      <TableContainer sx={{ mt: 4 }} component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow sx={{ bgcolor: "#8582b16c" }}>
+              <TableCell align="left">Id</TableCell>
+              {headerShow}
+              <TableCell align="right">Action</TableCell>
+            </TableRow>
+          </TableHead>
 
-        <TableBody>
-          {props.data.length === 0 ? (
-            <TableCell
-              sx={{ display: "flex", alignItems: "center", gap: 2, ml: 3 }}
-              align="center"
-            >
-              Lodaing ... <CircularProgress color="secondary" size={"1.6rem"} />
-            </TableCell>
-          ) : (
-            dataShow
-          )}
-          {/* {dataShow} */}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          <TableBody>
+            {props.lodaing ? (
+              <TableCell
+                sx={{ display: "flex", alignItems: "center", gap: 2, ml: 3 }}
+                align="center"
+              >
+                Lodaing ...{" "}
+                <CircularProgress color="secondary" size={"1.6rem"} />
+              </TableCell>
+            ) : (
+              dataShow
+            )}
+            {/* {dataShow} */}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Stack direction={'row'} gap={2} alignItems={'center'} justifyContent={'end'}>
+      <FormControl size="small" sx={{width:'80px'}}>
+          <InputLabel  id="demo-simple-select-label">Limit</InputLabel>
+          <Select
+            onChange={(e) => props.setLimit(e.target.value)}
+            sx={{p:0, }}
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            label="Limit"
+          >
+            <MenuItem value={`3`}>3</MenuItem>
+            <MenuItem value={`5`}>5</MenuItem>
+            <MenuItem value={`8`}>8</MenuItem>
+            <MenuItem value={`10`}>10</MenuItem>
+          </Select>
+        </FormControl>
+
+        <PaginatedItems
+        itemsPerPage={props.limit}
+        total={props.total}
+        setPage={props.setPage}
+      />
+
+      </Stack>
+    
+    </>
   );
 }

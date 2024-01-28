@@ -26,6 +26,7 @@ const AddProduct = () => {
   // state
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
+  console.log(categories)
   const [form, setForm] = useState({
     category: "",
     title: "",
@@ -69,7 +70,7 @@ const AddProduct = () => {
   //! 2 => get all Categories
   useEffect(() => {
     try {
-      Axios.get(`/${CAT}`).then((data) => setCategories(data.data));
+      Axios.get(`/${CAT}`).then((data) => setCategories(data.data.data));
     } catch (error) {
       console.log(error);
     }
