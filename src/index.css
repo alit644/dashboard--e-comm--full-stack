@@ -1,0 +1,29 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+a{
+  text-decoration: none;
+  color:rgba(197, 196, 199, 0.603);
+  transition: .2s;
+}
+a:hover{
+  color:#fff;
+}
+body{
+  background-color: #333232;
+  font-family: 'Cairo', sans-serif;
+}
+.active li{
+  color: #fff;
+  background-color: #4C4676 ;
+
+}
+/* ================= delete and edit */
+.del:hover{
+  color: red;
+}
+.edit:hover{
+  color: #8c88c47e;
+}
