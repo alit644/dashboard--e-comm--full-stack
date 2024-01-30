@@ -101,6 +101,7 @@ const Users = () => {
           setLimit={setLimit}
           lodaing={lodaing}
           total={total}
+          searchBy='name'
 
         />
       </Box>

@@ -8,11 +8,30 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { DeleteForeverOutlined, EditOutlined } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import { CircularProgress, FormControl, InputLabel, MenuItem, Select, Stack } from "@mui/material";
+import {
+  CircularProgress,
+  FormControl,
+  Input,
+  InputLabel,
+  MenuItem,
+  Select,
+  Stack,
+} from "@mui/material";
 import PaginatedItems from "../paginate/Paginate";
+import { useState } from "react";
 
 export default function Tablee(props) {
   const currentUser = props.currentUser || { name: "" };
+
+
+  // handelSearch searcg
+  const [search, setSearch] = useState("")
+  const filterData = props.data.filter((item) => item[props.searchBy].toLowerCase().includes(search.toLowerCase()))
+
+  function handelSearch(e) {
+    setSearch(e.target.value);
+  }
+
   // eslint-disable-next-line react/prop-types
   const headerShow = props.header.map((item, i) => {
     return (
@@ -22,10 +41,8 @@ export default function Tablee(props) {
     );
   });
 
-
-
   // eslint-disable-next-line react/prop-types
-  const dataShow = props.data.map((item, i) => (
+  const dataShow = filterData.map((item, i) => (
     <TableRow
       key={i}
       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -85,6 +102,11 @@ export default function Tablee(props) {
 
   return (
     <>
+      <FormControl sx={{mb:'-6px'}}>  
+        <Input onChange={handelSearch} sx={{mt:1.5}} placeholder="search box" type="search"/>
+
+      </FormControl>
+
       <TableContainer sx={{ mt: 4 }} component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -111,12 +133,17 @@ export default function Tablee(props) {
           </TableBody>
         </Table>
       </TableContainer>
-      <Stack direction={'row'} gap={2} alignItems={'center'} justifyContent={'end'}>
-      <FormControl size="small" sx={{width:'80px'}}>
-          <InputLabel  id="demo-simple-select-label">Limit</InputLabel>
+      <Stack
+        direction={"row"}
+        gap={2}
+        alignItems={"center"}
+        justifyContent={"end"}
+      >
+        <FormControl size="small" sx={{ width: "80px" }}>
+          <InputLabel id="demo-simple-select-label">Limit</InputLabel>
           <Select
             onChange={(e) => props.setLimit(e.target.value)}
-            sx={{p:0, }}
+            sx={{ p: 0 }}
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             label="Limit"
@@ -129,13 +156,11 @@ export default function Tablee(props) {
         </FormControl>
 
         <PaginatedItems
-        itemsPerPage={props.limit}
-        total={props.total}
-        setPage={props.setPage}
-      />
-
+          itemsPerPage={props.limit}
+          total={props.total}
+          setPage={props.setPage}
+        />
       </Stack>
-    
     </>
   );
 }

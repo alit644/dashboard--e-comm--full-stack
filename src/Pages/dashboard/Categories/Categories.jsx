@@ -27,7 +27,7 @@ const Categories = () => {
     },
   ];
 
-  // get all Categories
+  // get all Categories 
   useEffect(() => {
     try {
       setLodaing(true);
@@ -87,6 +87,7 @@ const Categories = () => {
           setLimit={setLimit}
           lodaing={lodaing}
           total={total}
+          searchBy='title'
         />
       </Box>
     </Box>

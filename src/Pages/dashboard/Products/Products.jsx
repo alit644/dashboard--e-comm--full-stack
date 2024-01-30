@@ -100,6 +100,7 @@ const Products = () => {
           setLimit={setLimit}
           lodaing={lodaing}
           total={total}
+          searchBy='title'
         />
       </Box>
     </Box>
