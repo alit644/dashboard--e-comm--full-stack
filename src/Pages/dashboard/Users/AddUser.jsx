@@ -45,7 +45,7 @@ const AddUser = () => {
   }
 
   return (
-    <Box sx={{ width: "90%" }}>
+    <Box sx={{ width: {xs: '100%' , md: "90%"} }}>
       <Stack
         direction={"row"}
         alignItems={"center"}

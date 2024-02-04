@@ -18,19 +18,53 @@ import {
   Stack,
 } from "@mui/material";
 import PaginatedItems from "../paginate/Paginate";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Axios } from "../../Api/axios";
+import transformDate from "../../helpers/transformDate";
 
 export default function Tablee(props) {
   const currentUser = props.currentUser || { name: "" };
 
+  //!  handelSearch searcg
+  const [search, setSearch] = useState("");
+  const [filterdSearch, setFilterdSearch] = useState([]);
+  const [searchLoading, setSearchLoading] = useState(false);
+  const [date, setDate] = useState("");
 
-  // handelSearch searcg
-  const [search, setSearch] = useState("")
-  const filterData = props.data.filter((item) => item[props.searchBy].toLowerCase().includes(search.toLowerCase()))
+  //! filterd search && filter data
+  const filterDateByDate =
+    date.length !== 0
+      ? props.data.filter((item) => transformDate(item.created_at) === date)
+      : props.data;
+  // ربط الفلتر مع البحث
+  const filterSearchDate =
+    date.length !== 0
+      ? filterdSearch.filter((item) => transformDate(item.created_at) === date)
+      : filterdSearch;
 
-  function handelSearch(e) {
-    setSearch(e.target.value);
+  const showdata = search.length > 0 ? filterSearchDate : filterDateByDate;
+
+  async function serachData() {
+    try {
+      const res = await Axios.post(
+        `/${props.serachLink}/search?title=${search}`
+      );
+      setFilterdSearch(res.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setSearchLoading(false);
+    }
   }
+
+  // res لتأخير عميلة البحث و تخفيف عدد
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      search.length > 0 ? serachData() : setSearchLoading(false);
+    }, 800);
+
+    return () => clearTimeout(delay);
+  }, [search]);
 
   // eslint-disable-next-line react/prop-types
   const headerShow = props.header.map((item, i) => {
@@ -42,7 +76,7 @@ export default function Tablee(props) {
   });
 
   // eslint-disable-next-line react/prop-types
-  const dataShow = filterData.map((item, i) => (
+  const dataShow = showdata.map((item, i) => (
     <TableRow
       key={i}
       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -50,11 +84,17 @@ export default function Tablee(props) {
       <TableCell>{item.id}</TableCell>
       {props.header.map((item2, index) => {
         return (
-          <TableCell key={index} align="center" component="th" scope="row">
+          <TableCell
+            sx={{ p: { xs: "10px", md: "16px" } }}
+            key={index}
+            align="center"
+            component="th"
+            scope="row"
+          >
             {item2.key === "image" ? (
               <img src={`${item[item2.key]}`} width={"80ox"} height={"50px"} />
             ) : item2.key === "images" ? (
-              <Stack direction={"row"} gap={1}>
+              <Stack direction={"row"} flexWrap={'wrap'} gap={1}>
                 {item[item2.key].map((img, k) => (
                   <img
                     key={k}
@@ -65,6 +105,8 @@ export default function Tablee(props) {
                   />
                 ))}
               </Stack>
+            ) : item2.key === "created_at" || item2.key === "updated_at" ? (
+              transformDate(item[item2.key])
             ) : item[item2.key] === "1995" ? (
               "Admin"
             ) : item[item2.key] === "2001" ? (
@@ -102,13 +144,35 @@ export default function Tablee(props) {
 
   return (
     <>
-      <FormControl sx={{mb:'-6px'}}>  
-        <Input onChange={handelSearch} sx={{mt:1.5}} placeholder="search box" type="search"/>
-
+      <FormControl>
+        <Input
+          onChange={(e) => {
+            setSearch(e.target.value);
+            // setSearchLoading(true)
+          }}
+          sx={{ mt: 1.5 }}
+          placeholder="search box"
+          type="search"
+        />
+      </FormControl>
+      <br />
+      <FormControl sx={{ mb: "-6px" }}>
+        <Input
+          onChange={(e) => {
+            setDate(e.target.value);
+            // setSearchLoading(true)
+          }}
+          sx={{ mt: 1.5 }}
+          placeholder="search box"
+          type="date"
+        />
       </FormControl>
 
       <TableContainer sx={{ mt: 4 }} component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+        <Table
+          sx={{ minWidth: { xs: 500, md: 650 } }}
+          aria-label="simple table"
+        >
           <TableHead>
             <TableRow sx={{ bgcolor: "#8582b16c" }}>
               <TableCell align="left">Id</TableCell>
@@ -126,6 +190,14 @@ export default function Tablee(props) {
                 Lodaing ...{" "}
                 <CircularProgress color="secondary" size={"1.6rem"} />
               </TableCell>
+            ) : searchLoading ? (
+              <TableCell
+                sx={{ display: "flex", alignItems: "center", gap: 2, ml: 3 }}
+                align="center"
+              >
+                Seraching ...{" "}
+                <CircularProgress color="secondary" size={"1.6rem"} />
+              </TableCell>
             ) : (
               dataShow
             )}
@@ -135,11 +207,12 @@ export default function Tablee(props) {
       </TableContainer>
       <Stack
         direction={"row"}
+        flexWrap={"wrap"}
         gap={2}
         alignItems={"center"}
         justifyContent={"end"}
       >
-        <FormControl size="small" sx={{ width: "80px" }}>
+        <FormControl size="small" sx={{ width: "80px", mt: 1 }}>
           <InputLabel id="demo-simple-select-label">Limit</InputLabel>
           <Select
             onChange={(e) => props.setLimit(e.target.value)}

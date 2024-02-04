@@ -1,0 +1,17 @@
+.hero-section{
+  background-image: url('../../../assets//Image/hero.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: calc(100vh - 96px);
+  position: relative;
+}
+.hero-section::after{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.24);
+  width: 100%;
+  height: 100%;
+}

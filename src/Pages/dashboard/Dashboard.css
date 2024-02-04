@@ -31,5 +31,12 @@
   border-radius: 4px;
   color: #424040;
   text-align: center;
-  
+}
+
+/* edit products page */
+@media (max-width: 768px) {
+  .imagesFromServe{
+    width: 130px !important;
+    height: 80px !important;
+  }
 }

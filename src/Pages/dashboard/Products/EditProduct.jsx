@@ -97,9 +97,9 @@ const EditProduct = () => {
   const imagesShow = images.map((img, key) => (
     <Paper key={key}>
       <Box sx={{ p: 1.5 }}>
-        <Stack direction={"row"} gap={3} alignItems={"center"}>
+        <Stack direction={{xs:'column' , md:"row"}} gap={{xs:1,md:3}} alignItems={{xs:'start',md:'center'}}>
           <img src={URL.createObjectURL(img)} width={"130px"} height={"90px"} />
-          <Stack direction={"column"} alignItems={"start"} gap={2}>
+          <Stack direction={"column"} alignItems={"start"} gap={{xs:0.8, md:2}}>
             <p>{img.name}</p>
             <p>
               {img.size / 1024 < 900
@@ -129,24 +129,33 @@ const EditProduct = () => {
       </div>
     </Paper>
   ));
-    //! 5 => Images show in page from serve
-    const showImageFromServer = imageFromServer.map((img, key) => (
-      <Box width={'220px'} key={key} sx={{mb:1.5 , position:'relative' , bgcolor:'#fff'}} >
-        <Box sx={{ p: 1.5 }}>
-            <img src={img.image} width={"180px"} height={"110px"} />
-          
-            <Box position={'absolute'} top={0} right={'5px'}>
-              <Button
-                onClick={() => handelDeleteImgFromServe(img.id)}
-                variant="contained"
-                color="error"
-              >
-                x
-              </Button>
-            </Box>
+  //! 5 => Images show in page from serve
+  const showImageFromServer = imageFromServer.map((img, key) => (
+    <Box
+      width={{xs:'160px' , md:"220px"}}
+      key={key}
+      sx={{ mb: 1.5, position: "relative", bgcolor: "#fff" }}
+    >
+      <Box sx={{ p: 1.5 }}>
+        <img
+          className="imagesFromServe"
+          src={img.image}
+          style={{ width: "180px", height: "110px" }}
+        />
+
+        <Box position={"absolute"} top={0} right={"5px"}>
+          <Button
+            onClick={() => handelDeleteImgFromServe(img.id)}
+            variant="contained"
+            color="error"
+            sx={{minWidth:'0' , p:'2px 8px'}}
+          >
+            x
+          </Button>
         </Box>
       </Box>
-    ));
+    </Box>
+  ));
 
   //! 7 => لهذه الصور id product رفع الصور قبل المنتج و اضافة
   //! 8 => progtess  انشاء شريط
@@ -190,18 +199,18 @@ const EditProduct = () => {
       console.log(error);
     }
   }
-    //! 9 => delete imag from server
-    async function handelDeleteImgFromServe(id) {
-      try {
-        const res = await Axios.delete(`/product-img/${id}`);
+  //! 9 => delete imag from server
+  async function handelDeleteImgFromServe(id) {
+    try {
+      const res = await Axios.delete(`/product-img/${id}`);
       setImageFromServer((prev) => prev.filter((image) => image.id !== id));
-      } catch (error) {
-        console.log(error);
-      }
+    } catch (error) {
+      console.log(error);
     }
+  }
 
   return (
-    <Box sx={{ width: "90%" }}>
+    <Box sx={{ width: { xs: "100%", md: "90%" } }}>
       <Stack
         direction={"row"}
         alignItems={"center"}
@@ -295,7 +304,7 @@ const EditProduct = () => {
           onClick={() => openImage.current.click()}
           alignItems={"center"}
           justifyContent={"center"}
-          py={3}
+          py={{ xs: 0.8, md: 3 }}
           borderRadius={"8px"}
           sx={{
             cursor: "pointer",
@@ -307,12 +316,11 @@ const EditProduct = () => {
             Upload Image
           </Typography>
         </Stack>
-        <Stack direction={'row'} gap={1.5} flexWrap={'wrap'} width={'220px'}>
+        <Stack direction={"row"} gap={1.5} flexWrap={"wrap"} width={"220px"}>
           {showImageFromServer}
         </Stack>
 
         {imagesShow}
-
 
         <MyButton loading={loading} text={"save"} />
       </Box>

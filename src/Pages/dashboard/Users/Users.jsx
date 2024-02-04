@@ -30,6 +30,14 @@ const Users = () => {
       key: "role",
       name: "Role",
     },
+    {
+      key: "created_at",
+      name: "Created",
+    },
+    {
+      key: "updated_at",
+      name: "Last Login",
+    },
   ];
 
   // get all users
@@ -66,13 +74,13 @@ const Users = () => {
   }
 
   return (
-    <Box sx={{ width: "90%" }}>
+    <Box sx={{ width: "100%" }}>
       <Stack
         direction={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
       >
-        <Typography variant="h5" color="initial">
+        <Typography variant="h5" sx={{fontSize: {xs:'1rem' , md:'1.25rem'}}}  color="initial">
           Users Pages
         </Typography>
         <Button
@@ -83,6 +91,8 @@ const Users = () => {
             color: "#7453A6",
             borderColor: "#7453A6",
             transition: ".3s",
+            fontSize: {xs:'0.9rem' , md:'1.25rem'},
+            p:{xs:'3px 10px' , md:'5px 15px'}
           }}
         >
           Add User
@@ -101,7 +111,7 @@ const Users = () => {
           setLimit={setLimit}
           lodaing={lodaing}
           total={total}
-          searchBy='name'
+          serachLink={USER}
 
         />
       </Box>

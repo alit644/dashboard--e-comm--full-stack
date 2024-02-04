@@ -1,4 +1,10 @@
-import { Button, Box, Stack, Typography } from "@mui/material";
+import {
+  Button,
+  Box,
+  Stack,
+  Typography,
+  
+} from "@mui/material";
 import Tablee from "../../../Components/dashboard/Tablee";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -16,6 +22,7 @@ const Categories = () => {
   const [total, settotal] = useState(0);
   const [lodaing, setLodaing] = useState(false);
 
+
   const header = [
     {
       key: "title",
@@ -25,19 +32,29 @@ const Categories = () => {
       key: "image",
       name: "Image",
     },
+    {
+      key: "created_at",
+      name: "Created",
+    },
+    {
+      key: "updated_at",
+      name: "Updated",
+    },
   ];
 
-  // get all Categories 
+  // get all Categories
   useEffect(() => {
     try {
       setLodaing(true);
-      Axios.get(`/${CAT}?limit=${limit}&page=${page}`).then((data) => {
-        setCategories(data.data.data);
-        settotal(data.data.total);
-      }).finally(() => setLodaing(false))
+      Axios.get(`/${CAT}?limit=${limit}&page=${page}`)
+        .then((data) => {
+          setCategories(data.data.data);
+          settotal(data.data.total);
+        })
+        .finally(() => setLodaing(false));
     } catch (error) {
       console.log(error);
-    } 
+    }
   }, [limit, page]);
 
   const nav = useNavigate();
@@ -52,14 +69,17 @@ const Categories = () => {
     }
   }
 
+  // serach func =>
+
+
   return (
-    <Box sx={{ width: "90%" }}>
+    <Box sx={{ width: "100%" }}>
       <Stack
         direction={"row"}
         alignItems={"center"}
         justifyContent={"space-between"}
       >
-        <Typography variant="h5" color="initial">
+        <Typography variant="h5" sx={{fontSize: {xs:'1rem' , md:'1.25rem'}}} color="initial">
           Categories Pages
         </Typography>
         <Button
@@ -70,11 +90,14 @@ const Categories = () => {
             color: "#7453A6",
             borderColor: "#7453A6",
             transition: ".3s",
+            fontSize: {xs:'0.9rem' , md:'1.25rem'},
+            p:{xs:'3px 10px' , md:'5px 15px'}
           }}
         >
           Add Category
         </Button>
       </Stack>
+  
 
       <Box>
         <Tablee
@@ -87,7 +110,7 @@ const Categories = () => {
           setLimit={setLimit}
           lodaing={lodaing}
           total={total}
-          searchBy='title'
+          serachLink={cat}
         />
       </Box>
     </Box>

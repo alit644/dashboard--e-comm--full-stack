@@ -1,7 +1,6 @@
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Avatar } from "@mui/material";
@@ -58,9 +57,8 @@ export default function AppBarr() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            search box
-          </Typography>
+          <Box sx={{ flexGrow: 1 }}>
+          </Box>
           <Avatar sx={{ cursor: "pointer", color: deepPurple[500] }}>
             {name !== undefined && name.split("")[0].toUpperCase()}
           </Avatar>

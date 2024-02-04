@@ -26,7 +26,6 @@ const AddProduct = () => {
   // state
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
-  console.log(categories)
   const [form, setForm] = useState({
     category: "",
     title: "",
@@ -70,7 +69,9 @@ const AddProduct = () => {
   //! 2 => get all Categories
   useEffect(() => {
     try {
-      Axios.get(`/${CAT}`).then((data) => setCategories(data.data.data));
+      Axios.get(`/${CAT}`).then((data) => {
+        setCategories(data.data)
+      });
     } catch (error) {
       console.log(error);
     }
@@ -190,7 +191,7 @@ const AddProduct = () => {
   }
 
   return (
-    <Box sx={{ width: "90%" }}>
+    <Box sx={{width: {xs: '100%' , md: "90%"}}}>
       <Stack
         direction={"row"}
         alignItems={"center"}
