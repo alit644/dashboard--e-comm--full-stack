@@ -1,4 +1,8 @@
 // @ts-nocheck
+
+import CssBaseline from "@mui/material/CssBaseline";
+import {createTheme, ThemeProvider } from "@mui/material/styles";
+
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Home from "./Pages/website/Home";
@@ -20,12 +24,16 @@ import AddProduct from "./Pages/dashboard/Products/AddProduct";
 import EditProduct from "./Pages/dashboard/Products/EditProduct";
 import WebsiteCategories from "./Pages/website/allCategories/websiteCategories";
 
-import { ThemeProvider, createTheme } from "@mui/material";
+
+const theme = createTheme({
+  direction: 'rtl',
+  // other theme properties
+});
 function App() {
-  const theme = createTheme();
   return (
     <>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/all-categories" element={<WebsiteCategories />} />
