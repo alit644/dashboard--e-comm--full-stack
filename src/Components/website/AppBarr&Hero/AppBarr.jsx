@@ -36,6 +36,11 @@ const AppBarr = () => {
       path: "/product",
     },
     {
+      name: "Categories",
+      icom: "",
+      path: "/all-categories",
+    },
+    {
       name: "Contact Us",
       icom: "",
       path: "/contact",
@@ -93,11 +98,11 @@ const AppBarr = () => {
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             {navBarItem.map((item, i) => (
               <NavLink
-                className="text-primary px-5 lg:px-8 font-[500] hover:text-secGreen transition-all"
+                className="text-primary px-2 lg:px-7    font-[500] hover:text-secGreen transition-all"
                 to={item.path}
                 key={i}
               >
-                <button>{item.name}</button>
+                <button >{item.name}</button>
               </NavLink>
             ))}
           </Box>

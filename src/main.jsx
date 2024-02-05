@@ -6,16 +6,21 @@ import { BrowserRouter } from "react-router-dom";
 import MenuProvidar from "./Context/Menuu";
 import Window from "./Context/WindowSize.jsx";
 import CurrentUser from "./Context/CurrentUser.jsx";
+
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Window>
-        <MenuProvidar>
-          <CurrentUser>
-            <App />
-          </CurrentUser>
-        </MenuProvidar>
-      </Window>
-    </BrowserRouter>
+    {/* <ThemeProvider theme={theme}> */}
+      {/* <CssBaseline /> */}
+      <BrowserRouter>
+        <Window>
+          <MenuProvidar>
+            <CurrentUser>
+              <App />
+            </CurrentUser>
+          </MenuProvidar>
+        </Window>
+      </BrowserRouter>
+    {/* </ThemeProvider> */}
   </React.StrictMode>
 );
