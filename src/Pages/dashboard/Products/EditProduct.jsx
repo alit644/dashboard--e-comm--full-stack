@@ -53,7 +53,9 @@ const EditProduct = () => {
   //! 2 => get all Categories
   useEffect(() => {
     try {
-      Axios.get(`/${CAT}`).then((data) => setCategories(data.data.data));
+      Axios.get(`/${CAT}`).then((data) => {
+        setCategories(data.data);
+      });
     } catch (error) {
       console.log(error);
     }
@@ -97,9 +99,17 @@ const EditProduct = () => {
   const imagesShow = images.map((img, key) => (
     <Paper key={key}>
       <Box sx={{ p: 1.5 }}>
-        <Stack direction={{xs:'column' , md:"row"}} gap={{xs:1,md:3}} alignItems={{xs:'start',md:'center'}}>
+        <Stack
+          direction={{ xs: "column", md: "row" }}
+          gap={{ xs: 1, md: 3 }}
+          alignItems={{ xs: "start", md: "center" }}
+        >
           <img src={URL.createObjectURL(img)} width={"130px"} height={"90px"} />
-          <Stack direction={"column"} alignItems={"start"} gap={{xs:0.8, md:2}}>
+          <Stack
+            direction={"column"}
+            alignItems={"start"}
+            gap={{ xs: 0.8, md: 2 }}
+          >
             <p>{img.name}</p>
             <p>
               {img.size / 1024 < 900
@@ -132,7 +142,7 @@ const EditProduct = () => {
   //! 5 => Images show in page from serve
   const showImageFromServer = imageFromServer.map((img, key) => (
     <Box
-      width={{xs:'160px' , md:"220px"}}
+      width={{ xs: "160px", md: "220px" }}
       key={key}
       sx={{ mb: 1.5, position: "relative", bgcolor: "#fff" }}
     >
@@ -148,7 +158,7 @@ const EditProduct = () => {
             onClick={() => handelDeleteImgFromServe(img.id)}
             variant="contained"
             color="error"
-            sx={{minWidth:'0' , p:'2px 8px'}}
+            sx={{ minWidth: "0", p: "2px 8px" }}
           >
             x
           </Button>
