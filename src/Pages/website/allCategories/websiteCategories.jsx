@@ -5,6 +5,10 @@ import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import { Axios } from "../../../Api/axios";
 import { CAT } from "../../../Api/Api";
+import axios from "axios";
+
+
+let cancelAxios = null
 
 const WebsiteCategories = () => {
   const [category, setCategory] = useState([]);
@@ -18,7 +22,16 @@ const WebsiteCategories = () => {
 
   // show all categories
   useEffect(() => {
-    Axios.get(`/${CAT}`).then((data) => setCategory(data.data))
+    Axios.get(`/${CAT}` , {
+      cancelToken: new axios.CancelToken((c) => {
+        cancelAxios = c
+      })
+    }).then((data) => setCategory(data.data))
+
+    return () => {
+      console.log('cancel Axios')
+      cancelAxios()
+    }
   }, []);
   const showData = category.map((item,key) => (
     <Grid  key={key} xs={6} sm={4} md={3}>
