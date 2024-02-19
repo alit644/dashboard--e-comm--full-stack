@@ -18,6 +18,7 @@ const ShowTopReted = () => {
   const showProducts = products.map((product, k) => (
     <Productss
       key={k}
+      id={product.id}
       discount={product.discount}
       description={product.description}
       price={product.price}

@@ -6,11 +6,12 @@ import { BrowserRouter } from "react-router-dom";
 import MenuProvidar from "./Context/Menuu";
 import Window from "./Context/WindowSize.jsx";
 import CurrentUser from "./Context/CurrentUser.jsx";
-
-
+import { store } from "./app/store";
+import { Provider } from "react-redux";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    <Provider store={store}>
       <BrowserRouter>
         <Window>
           <MenuProvidar>
@@ -20,5 +21,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           </MenuProvidar>
         </Window>
       </BrowserRouter>
+    </Provider>
   </React.StrictMode>
 );

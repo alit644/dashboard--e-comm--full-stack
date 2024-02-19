@@ -6,6 +6,8 @@ import Productss from "./Productss";
 import SkeletonShow from "../../Skeleton/SkeletonShow";
 
 const LatestSaleProducts = () => {
+
+
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -15,9 +17,11 @@ const LatestSaleProducts = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  const showProducts = products.map((product, k) => (
+
+  const showProducts = products.map((product, k ,) => (
     <Productss
       key={k}
+      id={product.id}
       discount={product.discount}
       description={product.description}
       price={product.price}

@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import CssBaseline from "@mui/material/CssBaseline";
-import {createTheme, ThemeProvider } from "@mui/material/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
@@ -23,51 +23,55 @@ import Products from "./Pages/dashboard/Products/Products";
 import AddProduct from "./Pages/dashboard/Products/AddProduct";
 import EditProduct from "./Pages/dashboard/Products/EditProduct";
 import WebsiteCategories from "./Pages/website/allCategories/websiteCategories";
-
+import ToastProvider from "./Context/Toast";
 
 const theme = createTheme({
-  direction: 'rtl',
+  direction: "rtl",
   // other theme properties
 });
 function App() {
+
   return (
     <>
       <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/all-categories" element={<WebsiteCategories />} />
-          <Route element={<RequireBack />}>
-            <Route path="/register" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-          </Route>
-          <Route path="/*" element={<Page404 />} />
+        <ToastProvider>
+        
+          <CssBaseline />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/all-categories" element={<WebsiteCategories />} />
+            <Route element={<RequireBack />}>
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+            </Route>
+            <Route path="/*" element={<Page404 />} />
 
-          <Route
-            element={<RequireAuth allowedRole={["1995", "1996", "1999"]} />}
-          >
-            <Route path="/dashboard" element={<Dashboard />}>
-              <Route element={<RequireAuth allowedRole={["1995"]} />}>
-                <Route path="users" element={<Users />} />
-                <Route path="users/:id" element={<Edituser />} />
-                <Route path="user/add" element={<AddUser />} />
-              </Route>
-              <Route element={<RequireAuth allowedRole={["1995", "1999"]} />}>
-                {/* categories */}
-                <Route path="categories" element={<Categories />} />
-                <Route path="categories/:id" element={<EditCategory />} />
-                <Route path="category/add" element={<AddCategory />} />
-                {/* Products */}
-                <Route path="products" element={<Products />} />
-                <Route path="products/:id" element={<EditProduct />} />
-                <Route path="product/add" element={<AddProduct />} />
-              </Route>
-              <Route element={<RequireAuth allowedRole={["1995", "1996"]} />}>
-                <Route path="writer" element={<Writer />} />
+            <Route
+              element={<RequireAuth allowedRole={["1995", "1996", "1999"]} />}
+            >
+              <Route path="/dashboard" element={<Dashboard />}>
+                <Route element={<RequireAuth allowedRole={["1995"]} />}>
+                  <Route path="users" element={<Users />} />
+                  <Route path="users/:id" element={<Edituser />} />
+                  <Route path="user/add" element={<AddUser />} />
+                </Route>
+                <Route element={<RequireAuth allowedRole={["1995", "1999"]} />}>
+                  {/* categories */}
+                  <Route path="categories" element={<Categories />} />
+                  <Route path="categories/:id" element={<EditCategory />} />
+                  <Route path="category/add" element={<AddCategory />} />
+                  {/* Products */}
+                  <Route path="products" element={<Products />} />
+                  <Route path="products/:id" element={<EditProduct />} />
+                  <Route path="product/add" element={<AddProduct />} />
+                </Route>
+                <Route element={<RequireAuth allowedRole={["1995", "1996"]} />}>
+                  <Route path="writer" element={<Writer />} />
+                </Route>
               </Route>
             </Route>
-          </Route>
-        </Routes>
+          </Routes>
+        </ToastProvider>
       </ThemeProvider>
     </>
   );

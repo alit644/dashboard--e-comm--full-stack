@@ -2,7 +2,6 @@ import {
   AccountCircleOutlined,
   ArrowForward,
   LocalMallOutlined,
-  SearchOutlined,
 } from "@mui/icons-material";
 import {
   Box,
@@ -17,8 +16,16 @@ import { Link, NavLink } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { FavoriteBorder } from "@mui/icons-material";
 
 const AppBarr = () => {
+  //!  useSelector
+  // @ts-ignore
+  const { cartItem } = useSelector((state) => state.cart);
+  // @ts-ignore
+  const { favItem } = useSelector((state) => state.cart);
+
   const navBarItem = [
     {
       name: "Home",
@@ -63,7 +70,7 @@ const AppBarr = () => {
   };
 
   return (
-    <Box >
+    <Box>
       {/* Notification Bar */}
       <Box className="bg-secGreen py-1 text-center ">
         <Typography variant="body1" color="initial">
@@ -73,10 +80,14 @@ const AppBarr = () => {
           </Link>
         </Typography>
       </Box>
-      
 
       {/* app Bar */}
-      <AppBar position="static" component="nav" sx={{ bgcolor: "#ffffff" }} color="inherit">
+      <AppBar
+        position="static"
+        component="nav"
+        sx={{ bgcolor: "#ffffff" }}
+        color="inherit"
+      >
         <Toolbar className="justify-between">
           <Box className="flex items-center">
             <IconButton
@@ -102,35 +113,43 @@ const AppBarr = () => {
                 to={item.path}
                 key={i}
               >
-                <button >{item.name}</button>
+                <button>{item.name}</button>
               </NavLink>
             ))}
           </Box>
 
           <Stack direction={"row"} gap={2} className="text-text-primary ">
-            <SearchOutlined
-              sx={{ display: { xs: "none", sm: "block" } }}
-              className="cursor-pointer hover:text-secGreen  "
-            />
-            <AccountCircleOutlined
-              sx={{ display: { xs: "none", sm: "block" } }}
-              className="cursor-pointer hover:text-secGreen  "
-            />
-            <Badge badgeContent={4} color="error">
-              <LocalMallOutlined className="cursor-pointer hover:text-secGreen" />
-            </Badge>
+            <div className="flex items-center justify-center  size-8 rounded-full  text-center">
+              <AccountCircleOutlined
+                sx={{ display: { xs: "none", sm: "block" } }}
+                className="cursor-pointer"
+              />
+            </div>
+
+            <div className="flex items-center justify-center hover:bg-red-100 transition-all duration-300 hover:shadow-md shadow-red-300 size-8 rounded-full  text-center">
+              <Badge badgeContent={favItem.length} color="error">
+                <FavoriteBorder className="cursor-pointer " />
+              </Badge>
+            </div>
+
+            <div className="flex items-center justify-center rounded-full  text-center">
+              {" "}
+              <Badge badgeContent={cartItem.length} color="error">
+                <LocalMallOutlined className="cursor-pointer" />
+              </Badge>
+            </div>
           </Stack>
         </Toolbar>
       </AppBar>
 
       {/* phone screen */}
       <Drawer
-        sx={{ "& .MuiDrawer-paper": { width: "60%", py:2 } }}
+        sx={{ "& .MuiDrawer-paper": { width: "60%", py: 2 } }}
         anchor={"left"}
         open={state["left"]}
         onClose={toggleDrawer("left", false)}
       >
-        <Box className='px-4'>
+        <Box className="px-4">
           <Typography
             sx={{ mb: 2 }}
             variant="h6"
@@ -140,7 +159,11 @@ const AppBarr = () => {
             3legant.
           </Typography>
 
-              <input type="text" placeholder="Search" className="mb-5 w-full focus:outline-none focus:shadow-lg shadow-md border h-8 pl-3 border-black rounded-md"  />
+          <input
+            type="text"
+            placeholder="Search"
+            className="mb-5 w-full focus:outline-none focus:shadow-lg shadow-md border h-8 pl-3 border-black rounded-md"
+          />
 
           <Stack className="divide-y divide-slate-300">
             {navBarItem.map((item, i) => (
@@ -149,7 +172,7 @@ const AppBarr = () => {
                 to={item.path}
                 key={i}
               >
-                <button className='mb-3'>{item.name}</button>
+                <button className="mb-3">{item.name}</button>
               </NavLink>
             ))}
           </Stack>
@@ -160,4 +183,3 @@ const AppBarr = () => {
 };
 
 export default AppBarr;
-5;
