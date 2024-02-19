@@ -1,16 +1,20 @@
 import { Box, Container, Stack, Typography } from "@mui/material";
-import { Axios } from "../../../Api/axios";
+import { Axios } from "../../../../Api/axios";
 import { useEffect, useState } from "react";
-import { latestSale } from "../../../Api/Api";
+import { latestSale } from "../../../../Api/Api";
 import Productss from "./Productss";
+import SkeletonShow from "../../Skeleton/SkeletonShow";
 
 const LatestSaleProducts = () => {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    Axios.get(`/${latestSale}`).then((data) => setProducts(data.data));
+    Axios.get(`/${latestSale}`)
+      .then((data) => setProducts(data.data))
+      .finally(() => setLoading(false));
   }, []);
 
-  //TODO error in edit products (category not found }
   const showProducts = products.map((product, k) => (
     <Productss
       key={k}
@@ -38,7 +42,16 @@ const LatestSaleProducts = () => {
           gap={2}
           className="my-3"
         >
-          {showProducts}
+          {loading ? (
+            <SkeletonShow
+              width={210}
+              height={260}
+              length={5}
+              classess={"flex gap-4"}
+            />
+          ) : (
+            showProducts
+          )}
         </Stack>
       </Box>
     </Container>

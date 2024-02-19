@@ -1,22 +1,19 @@
 // @ts-nocheck
-import {
-  Box,
-  Button,
-  Container,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { styled } from '@mui/material/styles';
+import { Box, Button, Container, Stack, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Axios } from "../../../Api/axios";
 import { useEffect, useState } from "react";
 import { CAT } from "../../../Api/Api";
 import { Link } from "react-router-dom";
+import SkeletonShow from "../../../Components/website/Skeleton/SkeletonShow";
 
 const ShopByCat = () => {
   const [category, setCategory] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    Axios.get(`/${CAT}`).then((data) => setCategory(data.data.slice(-6)));
+    Axios.get(`/${CAT}`).then((data) => setCategory(data.data.slice(-6))).finally(() => setLoading(false))
   }, []);
   // show category in website
 
@@ -75,7 +72,7 @@ const ShopByCat = () => {
           variant="h5"
           fontWeight={"bold"}
           color="initial"
-          className="py-8"
+          className="py-8 "
         >
           Shop by Categories
         </Typography>
@@ -98,7 +95,7 @@ const ShopByCat = () => {
           </Button>
         </Link>
       </Stack>
-      <Grid container>{showCategory}</Grid>
+      <Grid container>{loading ? <SkeletonShow width={'230px'} height={"240px"} length={6} classess={'grid grid-cols-2 md:grid-cols-3 gap-2'}/> : showCategory}</Grid>
     </Container>
   );
 };

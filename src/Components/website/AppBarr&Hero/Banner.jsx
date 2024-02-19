@@ -9,7 +9,7 @@ const Banner = () => {
       <Stack
         direction={{ sm: "column-reverse", md: "row" }}
         flexWrap={"wrap"}
-        sx={{ my: 4 }}
+        sx={{ mt: 4 }}
       >
         <Box className="image-box" sx={{ width: { sm: "100%", md: "50%" } }}>
           <img

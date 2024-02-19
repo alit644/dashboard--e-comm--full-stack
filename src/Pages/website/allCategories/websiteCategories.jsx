@@ -6,12 +6,13 @@ import { useEffect, useState } from "react";
 import { Axios } from "../../../Api/axios";
 import { CAT } from "../../../Api/Api";
 import axios from "axios";
+import SkeletonShow from "../../../Components/website/Skeleton/SkeletonShow";
 
-
-let cancelAxios = null
+let cancelAxios = null;
 
 const WebsiteCategories = () => {
   const [category, setCategory] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -22,23 +23,32 @@ const WebsiteCategories = () => {
 
   // show all categories
   useEffect(() => {
-    Axios.get(`/${CAT}` , {
+    Axios.get(`/${CAT}`, {
       cancelToken: new axios.CancelToken((c) => {
-        cancelAxios = c
-      })
-    }).then((data) => setCategory(data.data))
+        cancelAxios = c;
+      }),
+    }).then((data) => setCategory(data.data)).finally(() => setLoading(false))
 
     return () => {
-      console.log('cancel Axios')
-      cancelAxios()
-    }
+      console.log("cancel Axios");
+      cancelAxios();
+    };
   }, []);
-  const showData = category.map((item,key) => (
-    <Grid  key={key} xs={6} sm={4} md={3}>
+  const showData = category.map((item, key) => (
+    <Grid key={key} xs={6} sm={4} md={3}>
       <Item>
-        <Box sx={{overflow:'hidden' , maxHeight:"240px"}}>
-            <img  src={`${item.image}`} style={{width:'150px',height:'100px',margin:'0 auto'}} alt="Description" />
-            <Typography variant="h6" sx={{fontSize: {xs:'1rem', lg:'1.25rem'}}} textAlign={"center"} color="initial">
+        <Box sx={{ overflow: "hidden", maxHeight: "240px" }}>
+          <img
+            src={`${item.image}`}
+            style={{ width: "150px", height: "100px", margin: "0 auto" }}
+            alt="Description"
+          />
+          <Typography
+            variant="h6"
+            sx={{ fontSize: { xs: "1rem", lg: "1.25rem" } }}
+            textAlign={"center"}
+            color="initial"
+          >
             {item.title.length > 15
               ? item.title.slice(0, 15) + ".."
               : item.title}
@@ -65,7 +75,17 @@ const WebsiteCategories = () => {
         </Stack>
 
         <Grid container spacing={2}>
-          {showData}
+          {loading ? (
+
+            <SkeletonShow
+              width={"210px"}
+              height={"230px"}
+              length={10}
+              classess={"flex gap-4 flex-wrap"}
+            />
+          ) : (
+            showData
+          )}
         </Grid>
       </Container>
     </Box>

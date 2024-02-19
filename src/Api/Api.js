@@ -12,6 +12,8 @@ export const cat = 'category'
 export const PRO = 'products'
 export const pro = 'product'
 export const latestSale = 'latest-sale'
+export const topReted = 'top-rated'
+export const latest = 'latest'
 
 
 
