@@ -16,8 +16,9 @@ import { Link, NavLink } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FavoriteBorder } from "@mui/icons-material";
+import { onOpenCartDrawerAction } from "../../../app/features/global";
 
 const AppBarr = () => {
   //!  useSelector
@@ -68,6 +69,11 @@ const AppBarr = () => {
 
     setState({ ...state, [anchor]: open });
   };
+
+  const dispatch = useDispatch()
+  const onOpen = () => {
+    dispatch(onOpenCartDrawerAction())
+  }
 
   return (
     <Box>
@@ -123,20 +129,24 @@ const AppBarr = () => {
               <AccountCircleOutlined
                 sx={{ display: { xs: "none", sm: "block" } }}
                 className="cursor-pointer"
+                color="action"
               />
             </div>
 
             <div className="flex items-center justify-center hover:bg-red-100 transition-all duration-300 hover:shadow-md shadow-red-300 size-8 rounded-full  text-center">
               <Badge badgeContent={favItem.length} color="error">
-                <FavoriteBorder className="cursor-pointer " />
+                <FavoriteBorder className="cursor-pointer " color="action" />
               </Badge>
             </div>
 
-            <div className="flex items-center justify-center rounded-full  text-center">
-              {" "}
-              <Badge badgeContent={cartItem.length} color="error">
-                <LocalMallOutlined className="cursor-pointer" />
-              </Badge>
+            <div onClick={onOpen} className="flex items-center justify-center rounded-full  text-center">
+                <Badge badgeContent={cartItem.length} color="error">
+                  <LocalMallOutlined
+                    className="cursor-pointer"
+                    color="action"
+                    
+                  />
+                </Badge>
             </div>
           </Stack>
         </Toolbar>

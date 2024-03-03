@@ -2,22 +2,29 @@
 import { Box, Button, Container, Stack, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Unstable_Grid2";
-import { Axios } from "../../../Api/axios";
-import { useEffect, useState } from "react";
-import { CAT } from "../../../Api/Api";
 import { Link } from "react-router-dom";
 import SkeletonShow from "../../../Components/website/Skeleton/SkeletonShow";
+import { useGetCategoryDataQuery } from "../../../app/features/cart/cartApiSlice";
 
 const ShopByCat = () => {
-  const [category, setCategory] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    Axios.get(`/${CAT}`).then((data) => setCategory(data.data.slice(-6))).finally(() => setLoading(false))
-  }, []);
+  const { isLoading, data } = useGetCategoryDataQuery();
+  
+  
+  
+
+  if (isLoading)
+    return (
+      <Box mt={4}>
+        <SkeletonShow
+          width={"230px"}
+          height={"240px"}
+          length={6}
+          classess={"grid grid-cols-2 md:grid-cols-3 gap-2"}
+        />
+      </Box>
+    );
   // show category in website
-
-  // const theme = useTheme();
   const Item = styled(Box)(({ theme }) => ({
     backgroundColor: "#fff",
     height: { sm: "200px", md: "220px" },
@@ -25,7 +32,7 @@ const ShopByCat = () => {
     marginBottom: 3,
     padding: theme.spacing(1),
   }));
-  const showCategory = category.map((item, key) => (
+  const showCategory = data.slice(-6).map((item, key) => (
     <Grid key={key} xs={6} md={4}>
       <Item>
         <Box
@@ -95,7 +102,7 @@ const ShopByCat = () => {
           </Button>
         </Link>
       </Stack>
-      <Grid container>{loading ? <SkeletonShow width={'230px'} height={"240px"} length={6} classess={'grid grid-cols-2 md:grid-cols-3 gap-2'}/> : showCategory}</Grid>
+      <Grid container>{showCategory}</Grid>
     </Container>
   );
 };

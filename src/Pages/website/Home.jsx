@@ -8,6 +8,8 @@ import LatestSaleProducts from "../../Components/website/Produtss/LatestSale/Lat
 import Banner from "../../Components/website/AppBarr&Hero/Banner";
 import ShowTopReted from "../../Components/website/Produtss/TopRated/ShowTopReted";
 import BannerTwo from "../../Components/website/AppBarr&Hero/BannerTwo";
+import CartDrawer from "../../Components/website/Drawer/CartDrawer";
+import CartItemDrawer from "../../Components/website/cart/CartItemDrawer";
 
 const Home = () => {
   return (
@@ -16,9 +18,12 @@ const Home = () => {
       <Hero />
       <LatestSaleProducts />
       <ShopByCat />
-      <Banner/>
+      <Banner />
       <ShowTopReted />
       <BannerTwo />
+      <CartDrawer>
+        <CartItemDrawer />
+      </CartDrawer>
     </Box>
   );
 };

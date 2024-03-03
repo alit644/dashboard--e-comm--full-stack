@@ -8,19 +8,30 @@ import Window from "./Context/WindowSize.jsx";
 import CurrentUser from "./Context/CurrentUser.jsx";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <Window>
-          <MenuProvidar>
-            <CurrentUser>
-              <App />
-            </CurrentUser>
-          </MenuProvidar>
-        </Window>
-      </BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Window>
+            <MenuProvidar>
+              <CurrentUser>
+                <App />
+              </CurrentUser>
+            </MenuProvidar>
+          </Window>
+        </BrowserRouter>
+      </QueryClientProvider>
     </Provider>
   </React.StrictMode>
 );

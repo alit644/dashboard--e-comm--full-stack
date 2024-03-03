@@ -2,53 +2,63 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 ::-webkit-scrollbar {
   width: 0.44rem;
-  
- }
- 
+}
+
 ::-webkit-scrollbar-track {
   border: 7px solid #ffffff;
   box-shadow: inset 0 0 2.5px 2px rgba(0, 0, 0, 0.5);
   border-radius: 4px;
   background-color: #cfcfcf;
-  }
- 
+}
+
 ::-webkit-scrollbar-thumb {
   background: #000000;
   border-radius: 2px;
 }
- 
+
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
 
-a{
+a {
   text-decoration: none;
-  color:rgba(197, 196, 199, 0.603);
-  transition: .2s;
+  color: rgba(197, 196, 199, 0.603);
+  transition: 0.2s;
 }
-a:hover{
-  color:#fff;
-}
-body{
-  /* background-color: #333232; */
-  font-family: 'Cairo', sans-serif;
-}
-.active li{
+a:hover {
   color: #fff;
-  background-color: #4C4676 ;
-
+}
+body {
+  /* background-color: #333232; */
+  font-family: "Cairo", sans-serif;
+}
+.active li {
+  color: #fff;
+  background-color: #4c4676;
 }
 /* ================= delete and edit */
-.del:hover{
+.del:hover {
   color: red;
 }
-.edit:hover{
+.edit:hover {
   color: #8c88c47e;
+}
+
+/* img-cart */
+.img-cart {
+  width: 120px;
+  height: 140px;
+}
+@media (max-width: 767px) {
+  .img-cart {
+    width: 100px;
+    height: 120px;
+  }
 }

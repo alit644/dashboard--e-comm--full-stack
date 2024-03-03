@@ -1,24 +1,24 @@
 import { Box, Container, Stack, Typography } from "@mui/material";
-import { Axios } from "../../../../Api/axios";
-import { useEffect, useState } from "react";
-import { latestSale } from "../../../../Api/Api";
 import Productss from "./Productss";
 import SkeletonShow from "../../Skeleton/SkeletonShow";
+import { useGetProductsDataQuery } from "../../../../app/features/cart/cartApiSlice";
 
 const LatestSaleProducts = () => {
+  const { isLoading, data } = useGetProductsDataQuery();
 
+  if (isLoading)
+    return (
+      <Box mt={4}>
+        <SkeletonShow
+          width={210}
+          height={260}
+          length={5}
+          classess={"flex gap-4"}
+        />
+      </Box>
+    );
 
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    Axios.get(`/${latestSale}`)
-      .then((data) => setProducts(data.data))
-      .finally(() => setLoading(false));
-  }, []);
-
-
-  const showProducts = products.map((product, k ,) => (
+  const showProducts = data.map((product, k) => (
     <Productss
       key={k}
       id={product.id}
@@ -46,16 +46,7 @@ const LatestSaleProducts = () => {
           gap={2}
           className="my-3"
         >
-          {loading ? (
-            <SkeletonShow
-              width={210}
-              height={260}
-              length={5}
-              classess={"flex gap-4"}
-            />
-          ) : (
-            showProducts
-          )}
+          {showProducts}
         </Stack>
       </Box>
     </Container>

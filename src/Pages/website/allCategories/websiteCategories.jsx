@@ -2,39 +2,32 @@ import { Box, Container, Paper, Stack, Typography } from "@mui/material";
 import AppBarr from "../../../Components/website/AppBarr&Hero/AppBarr";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
-import { Axios } from "../../../Api/axios";
-import { CAT } from "../../../Api/Api";
-import axios from "axios";
 import SkeletonShow from "../../../Components/website/Skeleton/SkeletonShow";
-
-let cancelAxios = null;
+import { useGetCategoryDataQuery } from "../../../app/features/cart/cartApiSlice";
 
 const WebsiteCategories = () => {
-  const [category, setCategory] = useState([]);
-  const [loading, setLoading] = useState(true);
-
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
     padding: theme.spacing(2),
     textAlign: "center",
-    // color: theme.palette.text.secondary,
   }));
 
-  // show all categories
-  useEffect(() => {
-    Axios.get(`/${CAT}`, {
-      cancelToken: new axios.CancelToken((c) => {
-        cancelAxios = c;
-      }),
-    }).then((data) => setCategory(data.data)).finally(() => setLoading(false))
+  const { isLoading, data } = useGetCategoryDataQuery();
 
-    return () => {
-      console.log("cancel Axios");
-      cancelAxios();
-    };
-  }, []);
-  const showData = category.map((item, key) => (
+
+  if (isLoading)
+    return (
+      <Box mt={4}>
+        <SkeletonShow
+          width={"210px"}
+          height={"230px"}
+          length={10}
+          classess={"flex gap-4 flex-wrap"}
+        />
+      </Box>
+    );
+
+  const showData = data.map((item, key) => (
     <Grid key={key} xs={6} sm={4} md={3}>
       <Item>
         <Box sx={{ overflow: "hidden", maxHeight: "240px" }}>
@@ -75,17 +68,7 @@ const WebsiteCategories = () => {
         </Stack>
 
         <Grid container spacing={2}>
-          {loading ? (
-
-            <SkeletonShow
-              width={"210px"}
-              height={"230px"}
-              length={10}
-              classess={"flex gap-4 flex-wrap"}
-            />
-          ) : (
-            showData
-          )}
+          {showData}
         </Grid>
       </Container>
     </Box>

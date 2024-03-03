@@ -24,21 +24,22 @@ import AddProduct from "./Pages/dashboard/Products/AddProduct";
 import EditProduct from "./Pages/dashboard/Products/EditProduct";
 import WebsiteCategories from "./Pages/website/allCategories/websiteCategories";
 import ToastProvider from "./Context/Toast";
+import Details from "./Pages/website/Details/Details";
 
 const theme = createTheme({
   direction: "rtl",
   // other theme properties
 });
 function App() {
-
   return (
     <>
       <ThemeProvider theme={theme}>
         <ToastProvider>
-        
           <CssBaseline />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/cart" element={<Details />} />
+
             <Route path="/all-categories" element={<WebsiteCategories />} />
             <Route element={<RequireBack />}>
               <Route path="/register" element={<Register />} />

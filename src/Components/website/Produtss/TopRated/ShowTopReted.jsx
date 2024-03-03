@@ -1,21 +1,32 @@
 import { Box, Container, Stack, Typography } from "@mui/material";
-import { Axios } from "../../../../Api/axios";
-import { useEffect, useState } from "react";
 import { topReted } from "../../../../Api/Api";
 import Productss from "../LatestSale/Productss";
 import SkeletonShow from "../../Skeleton/SkeletonShow";
+import { useCaching } from "../../../../Hooks/useCaching";
 
 const ShowTopReted = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    Axios.get(`/${topReted}`)
-      .then((data) => setProducts(data.data))
-      .finally(() => setLoading(false));
-  }, []);
 
-  const showProducts = products.map((product, k) => (
+
+  const { isLoading, data } = useCaching({
+    queryKey: ["productTopReted"],
+    url: topReted,
+  });
+
+  if (isLoading)
+  return (
+    <Box mt={4}>
+      <SkeletonShow
+        width={210}
+        height={260}
+        length={5}
+        classess={"flex gap-4"}
+      />
+    </Box>
+  );
+
+
+  const showProducts = data.map((product, k) => (
     <Productss
       key={k}
       id={product.id}
@@ -43,16 +54,8 @@ const ShowTopReted = () => {
           gap={2}
           className="my-3"
         >
-          {loading ? (
-            <SkeletonShow
-              width={210}
-              height={260}
-              length={5}
-              classess={"flex gap-4"}
-            />
-          ) : (
-            showProducts
-          )}
+        
+            {showProducts}
         </Stack>
       </Box>
     </Container>

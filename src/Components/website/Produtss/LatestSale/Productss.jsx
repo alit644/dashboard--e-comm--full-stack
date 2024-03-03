@@ -19,15 +19,17 @@ const Productss = (props) => {
     setChangeColor((prev) =>
       prev === "white" ? "rgb(254 202 202 / 0.5)" : "white"
     );
-    showHideAlert('Successfully added to favorites');
+    showHideAlert("Successfully added to favorites");
   }, []);
 
   //handel add to cart
   const addToCard = useCallback(() => {
     dispatch(addToCart(props));
-    showHideAlert('The product has been added successfully');
-  }, [])
+    showHideAlert("The product has been added successfully");
+  }, []);
 
+
+  
   return (
     <>
       <Box>
@@ -109,13 +111,13 @@ const Productss = (props) => {
                       left: "10px",
                       top: "40px",
                       // @ts-ignore
-                      bgcolor: props.discount !== "0" ? "#44cb8a" : false,
+                      bgcolor: discount !== "0" ? "#44cb8a" : false,
                       color: "#fff",
                     }}
                     variant="body2"
                     color="initial"
                   >
-                    {props.discount !== "0" ? `-${props.discount}%` : false}
+                    {discount !== "0" ? `-${discount}%` : false}
                   </Typography>
                 </Stack>
                 <img
